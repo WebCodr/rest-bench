@@ -2,15 +2,15 @@ use std::time::{Duration, Instant};
 
 fn main() {
     let start = Instant::now();
-    let runs: u64 = 100_000;
-    let mut runtimes = Vec::new();
+    const RUNS: usize = 100_000;
+    let mut runtimes: [usize; RUNS] = [0; RUNS];
     let iterations: u64 = 100_000;
     let top: u64 = 100_000_000_000;
 
-    for _ in 1..=runs {
+    for i in 0..RUNS {
         let runtime = run_benchmark(iterations, top);
 
-        runtimes.push(runtime.as_micros());
+        runtimes[i] = runtime.as_micros() as usize;
     }
 
     let duration = start.elapsed();
@@ -18,7 +18,7 @@ fn main() {
     let min = runtimes.iter().min().unwrap();
     let max = runtimes.iter().max().unwrap();
 
-    println!("benchmark runs: {}", runs);
+    println!("benchmark runs: {}", RUNS);
     println!("per run: {} iterations; range(0..={})", iterations, top);
     println!("min {min} µs; max {max} µs; average {average} µs");
     println!("duration: {} s", duration.as_secs());
@@ -38,9 +38,9 @@ fn run_benchmark(iterations: u64, top: u64) -> Duration {
     return start.elapsed();
 }
 
-fn average(numbers: &Vec<u128>) -> u128 {
-    let sum: u128 = numbers.iter().sum();
-    let count = numbers.len() as u128;
+fn average(numbers: &[usize]) -> usize {
+    let sum: usize = numbers.iter().sum();
+    let count = numbers.len() as usize;
 
     return sum / count;
 }
