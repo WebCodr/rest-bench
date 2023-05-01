@@ -2,8 +2,8 @@ use std::time::{Duration, Instant};
 
 fn main() {
     let start = Instant::now();
-    let runs: u64 = 100_000;
-    let mut runtimes = Vec::new();
+    let runs: usize = 100_000;
+    let mut runtimes = Vec::with_capacity(runs);
     let iterations: u64 = 100_000;
     let top: u64 = 100_000_000_000;
 
